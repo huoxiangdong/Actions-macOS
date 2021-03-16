@@ -24,12 +24,21 @@ env:
   
 jobs:
    build:
-    runs-on: macos-10.14
+    runs-on: macos-10.15
 
     steps:
     - name: Initialization environment
       run: |
-        echo hello
+        node -v
+        npm i typescript@3.9.7 -g
+        java -version
+        brew search android-sdk
+        brew install android-sdk
+        export ANDROID_SDK="/usr/local/share/android-sdk"
+        export ANDROID_NDK="/usr/local/share/android-ndk"
+        echo $JAVA_HOME
+        echo $ANDROID_SDK
+        echo $ANDROID_NDK
     - name: SSH connection to Actions
       uses: P3TERX/ssh2actions@v1.0.0
       if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
@@ -37,3 +46,14 @@ jobs:
       env:
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+    - name: Clone source code
+      working-directory: /workdir
+      run: |
+        git clone $REPO_URL -b $REPO_BRANCH ftr
+    - name: Init git submodule
+      run: cd ftr && make init
+    - name: Compile Ftr
+      id: compile
+      run: |
+        cd ftr && make install
+    
