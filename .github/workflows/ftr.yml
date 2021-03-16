@@ -49,7 +49,7 @@ jobs:
     - name: Clone source code
       working-directory: /workdir
       run: |
-        git clone $REPO_URL
+        git clone https://github.com/louis-tru/ftr.git
     - name: Init git submodule
       run: cd ftr && make init
     - name: Compile Ftr
