@@ -47,7 +47,7 @@ jobs:
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
     - name: Clone source code
-      working-directory: /workdir
+      #working-directory: /workdir
       run: |
         git clone https://github.com/louis-tru/ftr.git
     - name: Init git submodule
