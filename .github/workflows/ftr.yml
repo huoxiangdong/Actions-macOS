@@ -39,6 +39,7 @@ jobs:
         echo $JAVA_HOME
         echo $ANDROID_SDK
         echo $ANDROID_NDK
+        
     - name: SSH connection to Actions
       uses: P3TERX/ssh2actions@v1.0.0
       if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
@@ -46,14 +47,19 @@ jobs:
       env:
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        
     - name: Clone source code
       #working-directory: /workdir
-      run: |
-        git clone https://github.com/louis-tru/ftr.git
+      run: git clone https://github.com/louis-tru/ftr.git
+        
     - name: Init git submodule
       run: cd ftr && make init
+      
     - name: Compile Ftr
       id: compile
-      run: |
-        cd ftr && make install
+      run: cd ftr && make install
+      
+    - name: Recompile
+      if: steps.compile.outputs.status != 'success' 
+      run: cd ftr && make -j4
     
