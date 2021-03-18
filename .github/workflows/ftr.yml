@@ -58,6 +58,9 @@ jobs:
     - name: Compile Ftr
       id: compile
       run: cd ftr && make android
+      env:
+       ANDROID_SDK: "/usr/local/share/android-sdk"
+       ANDROID_NDK: "/usr/local/share/android-ndk"
       
     - name: Recompile
       if: steps.compile.outputs.status != 'success' 
