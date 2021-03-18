@@ -57,7 +57,7 @@ jobs:
       
     - name: Compile Ftr
       id: compile
-      run: cd ftr && make install
+      run: cd ftr && make android
       
     - name: Recompile
       if: steps.compile.outputs.status != 'success' 
