@@ -57,10 +57,11 @@ jobs:
       
     - name: Compile Ftr
       id: compile
-      run: cd ftr && make android
-      env:
-       ANDROID_SDK: "/usr/local/share/android-sdk"
-       ANDROID_NDK: "/usr/local/share/android-ndk"
+      run: ｜
+       cd ftr 
+       ./tools/install-android-toolchain "/usr/local/share/android-ndk"
+       make android
+
       
     - name: Recompile
       if: steps.compile.outputs.status != 'success' 
